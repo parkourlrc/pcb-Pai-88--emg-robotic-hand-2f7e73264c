@@ -1,0 +1,38 @@
+* DRL common-mode rejection test
+.subckt oa out inp inn vcc vee
+Rin inp inn 1e12
+Eg n1 0 inp inn 2e5
+Rp n1 n2 1k
+Cp n2 0 1.6uF
+Bout out 0 V=min(max(V(n2),V(vee)+0.05),V(vcc)-0.05)
+Rout out 0 100
+.ends
+Vcc vcc 0 3.3
+Vmid vmid 0 1.65
+* mains interference capacitively coupled to the body (AC=1 for transfer measurement)
+Vmains mains 0 DC 1.65 AC 1 SIN(1.65 1 50)
+Ccouple mains body 5p
+Rbdc body vmid 1g
+* two measurement electrodes (skin R, slight mismatch), high-Z in-amp inputs
+Rea body ea 100k
+Reb body eb 102k
+Ria ea vmid 1e12
+Rib eb vmid 1e12
+* DRL: average the inputs, invert, drive reference electrode
+Rsa ea s 150k
+Rsb eb s 150k
+Xd drlout vmid s vcc 0 oa
+Rf s drlout 10meg
+Ro drlout ref 390k
+Rskin ref body 100k
+.control
+ac dec 40 10 500
+meas ac vcm_50 FIND vm(body) AT=50
+print vcm_50
+tran 0.0005 0.3
+let pk=maximum(v(drlout))
+let tr=minimum(v(drlout))
+let setp=maximum(v(drlout)[3000:6000])-minimum(v(drlout)[3000:6000])
+print pk tr
+.endc
+.end

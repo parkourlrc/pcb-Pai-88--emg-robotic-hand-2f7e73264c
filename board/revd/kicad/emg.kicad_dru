@@ -1,0 +1,77 @@
+(version 1)
+
+# JLCPCB 2-layer PCB manufacturing rules (KiCad 8+)
+# Source: JLCPCB Capabilities page (standard 2-layer FR4, 1oz outer copper)
+# Covers: min trace/space, annular ring, hole size, silkscreen, edge clearance.
+# For 4-layer, HDI, or impedance-controlled boards, tighten per JLC order form.
+
+# ---------- Trace width ----------
+(rule "Minimum trace width"
+    (constraint track_width (min 0.127mm))
+    (severity error))
+
+# ---------- Clearance (copper-to-copper) ----------
+(rule "Minimum copper clearance"
+    (constraint clearance (min 0.127mm))
+    (severity error))
+
+# ---------- Via annular ring ----------
+(rule "Minimum via annular ring"
+    (constraint annular_width (min 0.13mm))
+    (condition "A.Type == 'Via'")
+    (severity error))
+
+# ---------- Via hole ----------
+(rule "Minimum via drill"
+    (constraint hole_size (min 0.3mm))
+    (condition "A.Type == 'Via'")
+    (severity error))
+
+# ---------- Via diameter (drill + annular) ----------
+(rule "Minimum via diameter"
+    (constraint via_diameter (min 0.5mm))
+    (severity error))
+
+# ---------- PTH pad annular ring ----------
+(rule "Minimum PTH annular ring"
+    (constraint annular_width (min 0.15mm))
+    (condition "A.Pad_Type == 'Through-hole'")
+    (severity error))
+
+# ---------- PTH drill ----------
+(rule "Minimum PTH drill"
+    (constraint hole_size (min 0.3mm))
+    (condition "A.Pad_Type == 'Through-hole'")
+    (severity error))
+
+# ---------- NPTH drill ----------
+(rule "Minimum NPTH drill"
+    (constraint hole_size (min 0.5mm))
+    (condition "A.Pad_Type == 'NPTH, mechanical'")
+    (severity error))
+
+# ---------- Hole-to-hole ----------
+(rule "Minimum hole-to-hole clearance"
+    (constraint hole_to_hole (min 0.5mm))
+    (severity error))
+
+# ---------- Edge clearance (copper to board edge) ----------
+(rule "Copper to board edge"
+    (constraint edge_clearance (min 0.3mm))
+    (severity error))
+
+# ---------- Silkscreen ----------
+(rule "Minimum silkscreen text height"
+    (constraint text_height (min 1.0mm))
+    (layer "?.Silkscreen")
+    (severity warning))
+
+(rule "Minimum silkscreen line width"
+    (constraint text_thickness (min 0.15mm))
+    (layer "?.Silkscreen")
+    (severity warning))
+
+# ---------- Solder mask ----------
+(rule "Minimum solder mask sliver"
+    (constraint silk_clearance (min 0.1mm))
+    (severity warning))

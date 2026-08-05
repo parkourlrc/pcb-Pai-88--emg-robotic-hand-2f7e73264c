@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Trained models / recorded data (regenerate with record_gestures.py + train_gestures.py)
+*.npz
+*.pth
+
+# KiCad — editor local-history + backups + autosave, not source
+kicad/.history/
+*-backups/
+*.kicad_sch-bak
+*.kicad_pcb-bak
+_autosave-*
+fp-info-cache
+
+node_modules/
+package-lock.json
+~$*
+
+# KiCad build artefacts we regenerate from the scripts
+board/**/*.kicad_prl
+board/**/fp-info-cache
+
+# PlatformIO build output
+firmware/**/.pio/
+
+# FreeCAD backups / caches
+*.FCBak

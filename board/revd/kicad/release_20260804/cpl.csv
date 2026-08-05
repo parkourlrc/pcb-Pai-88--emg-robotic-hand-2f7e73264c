@@ -1,0 +1,37 @@
+Ref,Val,Package,PosX,PosY,Rot,Side
+"C1","100n","C_Disc_D5.0mm_W2.5mm_P5.00mm",75.500000,-20.000000,0.000000,top
+"C2","100n","C_Disc_D5.0mm_W2.5mm_P5.00mm",75.500000,-26.000000,0.000000,top
+"C3","1u","C_Rect_L7.0mm_W2.0mm_P5.00mm",67.500000,-42.000000,0.000000,top
+"C4","100n","C_Disc_D5.0mm_W2.5mm_P5.00mm",51.500000,-48.000000,0.000000,top
+"C5","10u","CP_Radial_D5.0mm_P2.50mm",66.794887,-54.000000,0.000000,top
+"C6","100n","C_Disc_D5.0mm_W2.5mm_P5.00mm",37.500000,-20.000000,0.000000,top
+"C7","47p","C_Disc_D5.0mm_W2.5mm_P5.00mm",85.500000,-56.000000,0.000000,top
+"C8","470u","CP_Radial_D10.0mm_P5.00mm",71.632323,-88.000000,0.000000,top
+"D1","BAT85","D_DO-35_SOD27_P7.62mm_Horizontal",33.000000,-28.810000,90.000000,top
+"D2","BAT85","D_DO-35_SOD27_P7.62mm_Horizontal",33.000000,-45.810000,90.000000,top
+"J1","Electrodes","PinHeader_1x03_P2.54mm_Vertical",93.000000,-11.475000,0.000000,top
+"J2","Pico / RP2040","Pico_Socket_2x1x20",10.110000,-11.870000,0.000000,top
+"J4","+9/GND/-9","TerminalBlock_Phoenix_MPT-0,5-3-2.54_1x03_P2.54mm_Horizontal",85.460000,-66.000000,0.000000,top
+"J5","Servo 1","PinHeader_1x03_P2.54mm_Vertical",14.000000,-85.460000,0.000000,top
+"J6","Servo 2","PinHeader_1x03_P2.54mm_Vertical",22.000000,-85.460000,0.000000,top
+"J7","Servo 3","PinHeader_1x03_P2.54mm_Vertical",30.000000,-85.460000,0.000000,top
+"J8","Servo 4","PinHeader_1x03_P2.54mm_Vertical",38.000000,-85.460000,0.000000,top
+"J9","Servo 5","PinHeader_1x03_P2.54mm_Vertical",46.000000,-85.460000,0.000000,top
+"J10","+5V servo in","TerminalBlock_Phoenix_MPT-0,5-2-2.54_1x02_P2.54mm_Horizontal",58.730000,-87.692500,0.000000,top
+"R1","1k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",74.920000,-8.000000,0.000000,top
+"R2","1k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",74.920000,-14.000000,0.000000,top
+"R3","8.2k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",60.920000,-36.000000,0.000000,top
+"R4","1k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",60.920000,-30.000000,0.000000,top
+"R5","15k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",60.920000,-24.000000,0.000000,top
+"R6","3.6k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",36.920000,-48.000000,0.000000,top
+"R7","10k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",61.000000,-51.080000,90.000000,top
+"R8","10k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",61.000000,-65.080000,90.000000,top
+"R9","5.1k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",44.920000,-12.000000,0.000000,top
+"R10","1k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",32.920000,-34.860000,0.000000,top
+"R11","150k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",82.920000,-32.000000,0.000000,top
+"R12","150k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",82.920000,-38.000000,0.000000,top
+"R13","3.9M","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",82.920000,-50.000000,0.000000,top
+"R14","390k","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",82.920000,-44.000000,0.000000,top
+"R15","0R","R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",88.000000,-89.080000,90.000000,top
+"U1","AD623AN","DIP-8_W7.62mm",60.200000,-8.199999,0.000000,top
+"U2","MCP6004","DIP-14_W7.62mm",46.200000,-24.375000,0.000000,top
