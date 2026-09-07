@@ -1,9 +1,25 @@
-# EMG front end rev E — bring-up
+# EMG front end rev E: bring-up
 
-> **Nothing in this project may be described as working until every stage
-> below passes on real hardware.** As of writing, this board has never been
-> fabricated, assembled or powered. Every measured-value blank is empty and
-> every checkbox is unticked. That is the honest state.
+> Nothing in this project may be described as working until every stage
+> below passes on real hardware. Where things stand (20 Aug 2026):
+>
+> - Board fabricated at JLCPCB and hand-soldered. The servo section (J5-J9,
+>   J10, C8) is not populated. C3 is not fitted yet.
+> - U1 and U2 were soldered directly, without DIP sockets. Stage 1 as written
+>   (rails with the ICs out) therefore cannot be done on this board. Skip to
+>   stage 2 and check the rails with the ICs in, at low current, with a
+>   current-limited supply if you have one.
+> - Fitted values that differ from the schematic: R5 = 10k (not 15k),
+>   R6 = 3.3k, R11 = R12 = 100k, R13 = 3.3M, R14 = 470k. So expect a total
+>   gain near 227 in stage 3, not 330.
+> - Stage 0 continuity checks done: +9/GND, -9/GND and +3V3/GND all open.
+> - The +/-9 V rails have not been connected yet, so stages 1 to 3 are not
+>   done and nothing on the analog side is verified.
+> - Stage 4 link test done with the Pico on USB and the analog side
+>   unpowered: 10 s capture, 499 frames, 49.87 frames/s, 997.4 Hz, 0 CRC
+>   errors, 0 dropped, 0 resyncs. The quiet-input rows in stage 4 do not
+>   count from that run because the input was floating.
+> - Stages 5 and 6 not started.
 
 **BATTERY POWER ONLY. Never wear the electrodes while anything connected to
 the board touches mains.** The driven-right-leg circuit actively drives your
@@ -14,12 +30,12 @@ During stages 5 and 6 the laptop must be unplugged and running on its own
 battery, or the Pico must be powered from a battery bank.
 
 Work top to bottom. Each stage has a gate. **Do not proceed past a failed
-gate** — later stages assume the earlier ones passed, and several of them
+gate** - later stages assume the earlier ones passed, and several of them
 put voltage near your skin.
 
 ---
 
-## Stage 0 — Inspection, before any power
+## Stage 0: Inspection, before any power
 
 No power supply connected. Nothing seated in the DIP sockets.
 
@@ -45,7 +61,7 @@ No power supply connected. Nothing seated in the DIP sockets.
 
 ---
 
-## Stage 1 — Rails only, no ICs
+## Stage 1: Rails only, no ICs
 
 Leave U1 and U2 **out of their sockets**. Do not fit the Pico.
 Connect the ±9 V battery supply to J4 (+9 / GND / −9, left to right).
@@ -61,11 +77,11 @@ battery bank**, still with no ICs seated.
 - [ ] +3V3 at U2 pin 4 socket:           ________ V   (expect 3.2 to 3.4)
 
 **Gate 1:** all three rails in range, negligible current. A rail that is
-low or a current draw of tens of mA means a short — stop and find it.
+low or a current draw of tens of mA means a short - stop and find it.
 
 ---
 
-## Stage 2 — ICs seated, nothing connected to the body
+## Stage 2: ICs seated, nothing connected to the body
 
 Power off. Seat U1 (AD623AN, DIP-8) and U2 (MCP6004, DIP-14), both pin 1
 toward the silkscreen marker. **Nothing in J1. No servo supply on J10.**
@@ -78,17 +94,17 @@ Power up again.
 - [ ] U2 pin 8 (U2C output, the DRL):    ________ V   (expect near VMID)
 - [ ] U2 pin 14 (U2D output, the buffer):________ V   (expect near VMID)
 - [ ] U1 pin 6 (AD623 output):           ________ V   (expect within a few
-      hundred mV of 0 V — its Ref pin is tied to GND, not VMID)
+      hundred mV of 0 V - its Ref pin is tied to GND, not VMID)
 - [ ] ADC_IN at the Pico side of R10:    ________ V   (expect near VMID,
       and it must stay between 0 and 3.3 V or the clamps are conducting)
 
 **Gate 2:** VMID is 1.65 V and every op-amp output sits at a sane DC level.
-An output pinned at a rail means that stage is saturated — find out why
+An output pinned at a rail means that stage is saturated - find out why
 before going near a body.
 
 ---
 
-## Stage 3 — Bench signal injection, still no body connection
+## Stage 3: Bench signal injection, still no body connection
 
 Use a function generator with its output floating or heavily attenuated.
 Drive between EL_P and EL_N (J1 pins 1 and 2). Keep the amplitude tiny:
@@ -113,7 +129,7 @@ be on the schematic was stale and has been removed.
       R6 3.6k with C4 100n)
 - [ ] Gain at 1 kHz:    ________   (expect well down)
 
-**Common-mode rejection — measure it, do not assume it.** Tie EL_P and
+**Common-mode rejection - measure it, do not assume it.** Tie EL_P and
 EL_N together through 100k each and drive that common point with 100 mVpp
 at 50 Hz, with DRL_REF (J1 pin 3) returned through a 100k resistor to the
 same common point to stand in for skin.
@@ -139,7 +155,7 @@ U2C not clipping.
 
 ---
 
-## Stage 4 — Acquisition, battery only
+## Stage 4: Acquisition, battery only
 
 Flash the Pico. **The laptop must now be unplugged from mains** (running on
 its own battery) or the Pico must run from a battery bank.
@@ -157,7 +173,7 @@ baseline sits near mid-scale.
 
 ---
 
-## Stage 5 — On the body
+## Stage 5: On the body
 
 Battery power only. Laptop unplugged from mains. If anything is plugged into
 a wall socket anywhere in the signal path, **stop**.
@@ -175,7 +191,7 @@ resting trace is not dominated by mains.
 
 ---
 
-## Stage 6 — Servo subsystem, last
+## Stage 6: Servo subsystem, last
 
 Only after stage 5 passes. Connect the separate +5 V servo supply to J10
 (+5V / GND). **Do not** power the servos from the Pico.
@@ -189,7 +205,7 @@ Only after stage 5 passes. Connect the separate +5 V servo supply to J10
       Resting pk-pk with servos idle:   ________ counts
       Resting pk-pk with servos moving: ________ counts
       These should be close. A large increase means servo return current is
-      getting into the analog ground — check R15 and the pour boundary.
+      getting into the analog ground - check R15 and the pour boundary.
 - [ ] Stall a servo briefly and confirm the +5 V rail does not sag enough to
       reset the Pico.  Rail under stall: ________ V
 
@@ -201,7 +217,7 @@ EMG trace.
 ## Only now
 
 When every gate above has passed with real numbers written in, the board may
-be described as working — and only to the extent that these stages tested.
+be described as working - and only to the extent that these stages tested.
 Record the completed copy of this document alongside the design files, and
 note the date and the board serial.
 

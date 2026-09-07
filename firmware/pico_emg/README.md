@@ -9,16 +9,16 @@
 
 Firmware for the rev E board: single-channel sEMG in, proportional gripper
 out. **The entire control loop runs on the Pico.** The host plots,
-calibrates and logs — unplug it and the gripper keeps working, because the
+calibrates and logs - unplug it and the gripper keeps working, because the
 thing deciding whether a motor may move should not depend on a USB cable.
 
 ## Status
 
 | | |
 |---|---|
-| Builds for RP2040 | **yes** — `pio run -e pico`, produces `firmware.uf2` |
-| Logic tested | **yes** — 77 native tests, `./test/run_tests.sh` |
-| Run on hardware | **no** — no board has been fabricated |
+| Builds for RP2040 | **yes** - `pio run -e pico`, produces `firmware.uf2` |
+| Logic tested | **yes** - 77 native tests, `./test/run_tests.sh` |
+| Run on hardware | **no** - no board has been fabricated |
 
 Nothing here has been executed on a Pico or seen a real electrode. The
 tests verify the logic; they cannot verify the wiring, the ADC, the servo
@@ -72,14 +72,14 @@ Measured response of the digital chain (native tests assert these):
 
 `INIT → IDLE → ACTIVE`, with `HOLD`, `FAULT` and a latched `ESTOP`.
 
-- **HOLD** — recoverable doubt. Freezes the aperture *bit-exactly*. Needs
+- **HOLD** - recoverable doubt. Freezes the aperture *bit-exactly*. Needs
   5 consecutive good windows to leave, so a marginal signal cannot chatter
   the gripper open and shut.
-- **FAULT** — stale stream or sustained bad signal. Releases the grip,
+- **FAULT** - stale stream or sustained bad signal. Releases the grip,
   slew-limited. Needs 20 consecutive good windows, then re-qualifies
-  through IDLE with a **reset counter** — recovery genuinely costs
+  through IDLE with a **reset counter** - recovery genuinely costs
   20 + 10 good windows before anything moves.
-- **ESTOP** — latches. 500 perfect windows will not clear it; only
+- **ESTOP** - latches. 500 perfect windows will not clear it; only
   `safe_reset()` does.
 
 There are no force sensors on rev E, so **signal quality is the primary
@@ -89,7 +89,7 @@ flatline threshold sits well below any plausible resting level, and there
 is a test for exactly that.
 
 Releasing on fault rather than freezing is the one genuinely contestable
-choice — see the comment above `grip_update()`. For a bench gripper,
+choice - see the comment above `grip_update()`. For a bench gripper,
 releasing is safer: a frozen grip with no signal keeps crushing, and
 nothing on this board can notice. Revisit if it ever holds something that
 must not be dropped.
@@ -120,7 +120,7 @@ pio run -e pico -t upload             # hold BOOTSEL, then upload
 ./test/run_tests.sh                   # 77 native logic tests
 ```
 
-`pico_debug` is the same firmware plus a once-a-second status line on USB —
+`pico_debug` is the same firmware plus a once-a-second status line on USB -
 useful during bring-up stage 4, before any host tooling exists.
 
 Footprint: **4.0% RAM, 2.0% flash**. The loop is nowhere near the limit;
@@ -146,7 +146,7 @@ Flags: `0x01` saturated high, `0x02` saturated low, `0x04` contact
 suspect, `0x08` overrun (USB backed up; samples dropped deliberately
 rather than stalling the control loop).
 
-Outbound is telemetry only. Inbound carries calibration and commands —
+Outbound is telemetry only. Inbound carries calibration and commands -
 never the control loop.
 
 ## Calibration
@@ -158,10 +158,10 @@ calibration intact when it does.
 
 The defaults in `grip_config_defaults()` are placeholders. Shipping a guess
 would make the gripper twitch at noise on one arm and not respond at all on
-another — calibrate during bring-up stage 5.
+another - calibrate during bring-up stage 5.
 
 ## One ADC count
 
 `(3.3 / 4096) / 329.7 = 2.443 µV` at the skin, where 329.7 is the real
 total gain (AD623 at 20.61 × U2A at 16). The schematic's old "21 × 48 =
-1000" note was stale and has been corrected — do not reintroduce it.
+1000" note was stale and has been corrected - do not reintroduce it.

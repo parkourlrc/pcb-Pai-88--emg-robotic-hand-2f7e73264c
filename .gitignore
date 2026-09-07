@@ -8,28 +8,38 @@ __pycache__/
 .venv/
 venv/
 
-# Trained models / recorded data (regenerate with record_gestures.py + train_gestures.py)
+# Recorded data / trained models (local experiments only)
 *.npz
 *.pth
 
-# KiCad — editor local-history + backups + autosave, not source
-kicad/.history/
+# KiCad - editor local-history, backups, autosave, caches (not source)
+**/.history/
 *-backups/
 *.kicad_sch-bak
 *.kicad_pcb-bak
+*.kicad_prl
+*.bak
 _autosave-*
+_restore_backup_*
 fp-info-cache
+# stray re-export; canonical netlist is emg.net
+board/revd/kicad/emg_new.net
 
 node_modules/
 package-lock.json
 ~$*
 
-# KiCad build artefacts we regenerate from the scripts
-board/**/*.kicad_prl
-board/**/fp-info-cache
-
 # PlatformIO build output
 firmware/**/.pio/
 
+# WiFi credentials - never commit these. wifi_secrets.h.example is the template.
+**/wifi_secrets.h
+
 # FreeCAD backups / caches
 *.FCBak
+
+# Mechanical CAD - being reworked, will re-add once updated
+mech/
+
+# SKiDL REPL scratch output
+skidl_REPL.*

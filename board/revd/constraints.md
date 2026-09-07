@@ -1,7 +1,7 @@
-# EMG front end rev E — design constraints
+# EMG front end rev E: design constraints
 
 Constraints that follow from *this* circuit. Values are taken from the
-netlist (`kicad/emg_new.net`), which is the authority — not from comments.
+netlist (`kicad/emg_new.net`), which is the authority - not from comments.
 
 ## What the board is
 
@@ -46,12 +46,12 @@ Two supply domains meet on this board and the rule is that they meet **once**.
 strip of the board (y 82–94 mm) at zone priority 1, so it owns that copper
 in preference to the board-wide GND pour at priority 0. **R15 (0R) is the
 only connection between the two**, and it is placed deliberately straddling
-the pour boundary — its SERVO_GND pad inside the strip, its GND pad outside.
+the pour boundary - its SERVO_GND pad inside the strip, its GND pad outside.
 
 The reason is current, not neatness: five servos stalling draw amps, and
 that return current must not share a path with a front end resolving 2.44 µV
-per count. Anything that shorts the two pours elsewhere — a stray track, a
-misplaced pour, a solder bridge — silently destroys the noise floor while
+per count. Anything that shorts the two pours elsewhere - a stray track, a
+misplaced pour, a solder bridge - silently destroys the noise floor while
 leaving the board apparently functional. Stage 0 of `bringup.md` checks for
 exactly this by lifting R15 and confirming the nets go open.
 
@@ -59,13 +59,13 @@ exactly this by lifting R15 and confirming the nets go open.
 
 Three nodes are high enough impedance to care about physically:
 
-- **EL_P / EL_N** (J1 pins 1, 2) — the electrode inputs. Source impedance is
+- **EL_P / EL_N** (J1 pins 1, 2) - the electrode inputs. Source impedance is
   skin, typically 100 kΩ and mismatched between electrodes. Any leakage or
   coupling here appears directly at the input, multiplied by 330.
-- **DRL_S** — the DRL summing node at U2C's inverting input, fed from
+- **DRL_S** - the DRL summing node at U2C's inverting input, fed from
   R11/R12 (150k) and wrapped by R13 (**3.9 MΩ**). At megohms, this node picks
   up anything routed near it.
-- **DRL_REF** (J1 pin 3) — driven, but through R14 (390 kΩ), so it is high
+- **DRL_REF** (J1 pin 3) - driven, but through R14 (390 kΩ), so it is high
   impedance on the electrode side.
 
 Constraints that follow:
@@ -83,7 +83,7 @@ Constraints that follow:
 
 D1 and D2 (BAT85 Schottky) clamp ADC_IN to +3V3 and GND respectively, fed
 through R10 (1k). They must sit **at the Pico's ADC pin**, not back at the
-buffer — the point is to protect GP26, so the clamp has to be electrically
+buffer - the point is to protect GP26, so the clamp has to be electrically
 closer to the pin than any pickup. R10 limits the clamp current.
 
 D1 cathode to +3V3, D2 cathode to the signal. Reversed, they conduct in
@@ -99,7 +99,7 @@ above Nyquist is **not** strongly suppressed. This is a deliberate accepted
 compromise: surface EMG has little energy above 500 Hz, and the dominant
 interferer (50 Hz mains) is far below Nyquist and handled by the DRL. If a
 future revision raises the sample rate or needs a cleaner alias margin, add
-a second pole rather than moving this one down — moving it down eats into
+a second pole rather than moving this one down - moving it down eats into
 the 20–450 Hz EMG band.
 
 ## Decoupling
@@ -108,7 +108,7 @@ the 20–450 Hz EMG band.
   adjacent to U1.
 - C6 (100n) decouples U2's +3V3 rail, adjacent to U2.
 - C5 (10 µF) stabilises VMID at the R7/R8 divider.
-- C8 (470 µF) is bulk reservoir for the servo rail at J10 — sized for servo
+- C8 (470 µF) is bulk reservoir for the servo rail at J10 - sized for servo
   inrush, not for decoupling. Without it a stall collapses the 5 V rail.
 
 ## Trace widths and current
@@ -124,7 +124,7 @@ Vias are 0.8 mm outer / 0.4 mm drill.
 ## Body-connected device
 
 This board drives current into a person through DRL_REF. R14 (390 kΩ) limits
-that to **under 5 µA**, which is the standard approach and is safe — but the
+that to **under 5 µA**, which is the standard approach and is safe - but the
 safety argument depends entirely on the board being **battery powered and
 galvanically isolated from mains**.
 
@@ -143,7 +143,7 @@ Consequences:
 
 - **R13 = 3.9 MΩ is deliberate.** `REV_D_NOTES.md` claims ~19 dB CMRR from a
   simulation that used 10 MΩ. Nodal analysis (`kicad/drl_analysis.py`) gives
-  ~31 dB at 3.9 MΩ and ~38 dB at 10 MΩ — but 10 MΩ has a correction gain of
+  ~31 dB at 3.9 MΩ and ~38 dB at 10 MΩ - but 10 MΩ has a correction gain of
   133×, clipping U2C at only ~12 mV of common-mode, versus 52× and ~32 mV
   for 3.9 MΩ. A clipped DRL rejects nothing, so 3.9 MΩ is the better choice
   in a realistic mains environment. Measured in bring-up stage 3.

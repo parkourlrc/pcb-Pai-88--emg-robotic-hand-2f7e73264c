@@ -1,6 +1,6 @@
 (export (version "E")
   (design
-    (source "/home/claude/emg-revd/emg.kicad_sch")
+    (source "emg.kicad_sch")
     (date "Mon Aug  3 22:33:49 2026")
     (tool "Eeschema 7.0.11+dfsg-1build4")
     (sheet (number "1") (name "/") (tstamps "/")
